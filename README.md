@@ -157,3 +157,67 @@ then
             debug: false
         },
   ```
+#####owncloud
+[Install](https://software.opensuse.org/download.html?project=isv:ownCloud:community&package=owncloud)
+[config](http://idroot.net/tutorials/install-owncloud-8-ubuntu-14-04/)
+install components
+```
+apt-get install apache2 php5 php5-mysql php5-gd php5-json php5-curl php5-intl php5-mcrypt php5-imagick mysql-server
+```
+```
+mysql_secure_install
+```
+
+and specify user and password
+```
+mysql> CREATE USER 'test'@'localhost' IDENTIFIED BY 'test';
+mysql> CREATE DATABASE test;
+mysql> GRANT ALL ON test.* TO 'test'@'localhost';
+mysql> FLUSH PRIVILEGES;
+mysql> exit
+```
+then
+```
+http://ip/owncloud
+```
+to use.
+
+```
+alias l="ls -la"
+```
+
+######fix apache
+```
+/etc/apache2/sites-enabled
+```
+change default:
+```
+vim /etc/apache2/sites-available/000-default.conf
+```
+change documentRoot name.from html->oncloud. then ```localhost```
+######ssl
+enable modules:
+```
+a2enmod ssl
+service apache2 restart
+```
+create dir
+```
+mkdir /etc/apache2/ssl
+```
+```
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/apache2/ssl/woncloud.key -out /etc/apache2/ssl/owncloud.crt
+```
+Then config 
+```
+vim /etc/apache2/sites-available/000-default.conf
+```
+change locations:
+```
+SSLCertificateFile
+SSLCertificateKeyFile
+```
+Then
+```
+a2ensite default-ssl.conf
+```
