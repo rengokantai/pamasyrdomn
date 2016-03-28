@@ -124,3 +124,36 @@ restart:
 ```
 pm2 start index.js --name ghost
 ```
+(do not forget to change production ip to server name ip)
+######postgresql
+```
+apt-get install postgresql libpq-dev
+```
+use postgres:
+```
+sudo su postgres
+psql
+>> create database ghost;
+>> create role ghost with password '123456' LOGIN;  //must single quote
+>> alter database ghost owner to ghost;
+\q
+exit
+```
+edit config.js ,change sqlite3 to pg
+```
+npm install pg
+```
+then
+```
+        database: {
+            client: 'pg',
+            connection: {
+                host     : 'localhost',
+                user     : 'ghost',
+                password : 'ghost',
+                database : 'ghost',
+                charset  : 'utf8'
+            },
+            debug: false
+        },
+  ```
