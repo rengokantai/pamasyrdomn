@@ -91,3 +91,36 @@ Run:
 ```
 http://host:2368/ghost/setup/
 ```
+
+######install nginx ,shadow remote 80 to local 2368
+```
+apt-get ..
+sudo vim /etc/nginx/conf.d/yd.conf
+```
+edit:
+```
+server{
+listen 80;
+server_name 54.86.31.87;
+location / {
+proxy_set_header X-real_IP $remote_addr;
+proxy_set_header Host $http_host;
+proxy_pass http://127.0.0.1:2368;
+}
+}
+```
+######pm2
+```
+npm install -g pm2
+pm2 start index.js --name ghost -i max
+```
+this will cause an issue, so we need to export env.
+```
+echo "export NODE_ENV=production" >>~/.profile
+source ~/.profile
+pm2 kill
+```
+restart:
+```
+pm2 start index.js --name ghost
+```
