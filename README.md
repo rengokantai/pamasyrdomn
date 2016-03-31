@@ -24,6 +24,10 @@ create a droplet, name code.yd.me
 cat ~/.ssh/id_rsa.pub | ssh root@[your.ip.address.here] "cat >> ~/.ssh/authorized_keys"
 ```
 [see this tutorial] (https://www.digitalocean.com/community/tutorials/how-to-use-ssh-keys-with-digitalocean-droplets)  
+Edit ```/etc/ssh/sshd_config ```
+```
+PermitRootLogin without-password
+```
 
 add an A record to dnsimple, add `code.yd.me`  
 
